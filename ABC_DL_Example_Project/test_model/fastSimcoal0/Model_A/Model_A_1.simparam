@@ -1,0 +1,100 @@
+Simulation parameters for current simulations
+=============================================
+
+
+Deme sizes
+Deme 0	3101
+Deme 1	594
+Deme 2	10039
+Deme 3	7992
+
+
+Sample sizes
+Deme 0	2
+Deme 1	2
+Deme 2	2
+Deme 3	2
+
+Sample ages
+Deme 0	0
+Deme 1	0
+Deme 2	1800
+Deme 3	1414
+
+Growth rates
+Deme 0	0
+Deme 1	0
+Deme 2	0
+Deme 3	0
+
+
+Migration matrix
+Note that migration rates have been pre-multiplied by factor TDemeCollection::CTTimeUnit (1e+006)
+ 0.0000000  0.0000000  0.0000000  0.0000000 
+ 0.0000000  0.0000000  0.0000000  0.0000000 
+ 0.0000000  0.0000000  0.0000000  0.0000000 
+ 0.0000000  0.0000000  0.0000000  0.0000000 
+
+
+Historical events
+Event 0
+
+#Time             : 1386
+#Source           : 0
+#Sink             : 1
+#Migrants         : 1.0000000
+#New size         : 0.3333333
+#New growth rate  : 0.0000000
+#New migr. matrix : 0
+
+Event 1
+
+#Make lineages of deme 3 active at time 1414
+
+Event 2
+
+#Make lineages of deme 2 active at time 1800
+
+Event 3
+
+#Time             : 2088
+#Source           : 2
+#Sink             : 3
+#Migrants         : 1.0000000
+#New size         : 0.0248999
+#New growth rate  : 0.0000000
+#New migr. matrix : 0
+
+Event 4
+
+#Time             : 4619
+#Source           : 1
+#Sink             : 3
+#Migrants         : 1.0000000
+#New size         : 0.6733668
+#New growth rate  : 0.0000000
+#New migr. matrix : 0
+
+
+
+Number of independent loci to simulate : 2
+Each with a different chromosomal structure
+
+Number of linkage blocks to simulate in structure 1: 1
+
+   9999999 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000158   0.33000
+
+Number of linkage blocks to simulate in structure 2: 1
+
+   9999999 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000153   0.33000
+
+
+
+Random generator initialized with : 146507
+
+
+
+done in 0.625 secs
+

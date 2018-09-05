@@ -1,0 +1,110 @@
+Simulation parameters for current simulations
+=============================================
+
+
+Deme sizes
+Deme 0	2078
+Deme 1	570
+Deme 2	11664
+Deme 3	9532
+
+
+Sample sizes
+Deme 0	2
+Deme 1	2
+Deme 2	2
+Deme 3	2
+
+Sample ages
+Deme 0	0
+Deme 1	0
+Deme 2	1800
+Deme 3	1414
+
+Growth rates
+Deme 0	0
+Deme 1	0
+Deme 2	0
+Deme 3	0
+
+
+Migration matrix
+Note that migration rates have been pre-multiplied by factor TDemeCollection::CTTimeUnit (1e+006)
+ 0.0000000  0.0000000  0.0000000  0.0000000 
+ 0.0000000  0.0000000  0.0000000  0.0000000 
+ 0.0000000  0.0000000  0.0000000  0.0000000 
+ 0.0000000  0.0000000  0.0000000  0.0000000 
+
+
+Historical events
+Event 0
+
+#Time             : 231
+#Source           : 1
+#Sink             : 2
+#Migrants         : 0.1739345
+#New size         : 1.0000000
+#New growth rate  : 0.0000000
+#New migr. matrix : 0
+
+Event 1
+
+#Time             : 586
+#Source           : 0
+#Sink             : 1
+#Migrants         : 1.0000000
+#New size         : 0.2333333
+#New growth rate  : 0.0000000
+#New migr. matrix : 0
+
+Event 2
+
+#Make lineages of deme 3 active at time 1414
+
+Event 3
+
+#Make lineages of deme 2 active at time 1800
+
+Event 4
+
+#Time             : 2748
+#Source           : 2
+#Sink             : 3
+#Migrants         : 1.0000000
+#New size         : 0.0203525
+#New growth rate  : 0.0000000
+#New migr. matrix : 0
+
+Event 5
+
+#Time             : 4118
+#Source           : 1
+#Sink             : 3
+#Migrants         : 1.0000000
+#New size         : 0.9536082
+#New growth rate  : 0.0000000
+#New migr. matrix : 0
+
+
+
+Number of independent loci to simulate : 2
+Each with a different chromosomal structure
+
+Number of linkage blocks to simulate in structure 1: 1
+
+   9999999 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000181   0.33000
+
+Number of linkage blocks to simulate in structure 2: 1
+
+   9999999 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000148   0.33000
+
+
+
+Random generator initialized with : 46628
+
+
+
+done in 1.297 secs
+
