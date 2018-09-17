@@ -8,3 +8,12 @@ In order to use the JAVA package, you will need the SDK1.8 and JRI1.8, as well a
 We have included a pdf manual describing the steps to conduct the analyses that we proposed in that paper. In order to exemplify how to run the ABC-DL, we have included a step-by-step example for the comparison of two models that include archaic samples and archaic introgression.
 
 Please, refer to manual.pdf and contact oscar.lao@cnag.crg.eu in case of any doubt/problem.
+
+Organization of the project:
+
+Manual ABC_DL.pdf The manual explaining how to develop the JAVA pipeline and to conduct the ABC analyses.
+abcModel.R The R script to run the ABC model comparison.
+abcParameter.R The R script to run the ABC parameter comparison.
+ABC_DL_Example_Project A folder with the example described in the Manual.
+ABC_DL_Suite The JAVA Netbeans project including the source code.
+jar libraries JAVA libraries that must be imported to the ABC_DL_Suite package
