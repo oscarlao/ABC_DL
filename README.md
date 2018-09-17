@@ -12,8 +12,14 @@ Please, refer to manual.pdf and contact oscar.lao@cnag.crg.eu in case of any dou
 Organization of the project:
 
 Manual ABC_DL.pdf The manual explaining how to develop the JAVA pipeline and to conduct the ABC analyses.
+
 abcModel.R The R script to run the ABC model comparison.
+
 abcParameter.R The R script to run the ABC parameter comparison.
+
 ABC_DL_Example_Project A folder with the example described in the Manual.
+
 ABC_DL_Suite The JAVA Netbeans project including the source code.
+
 jar libraries JAVA libraries that must be imported to the ABC_DL_Suite package
+
