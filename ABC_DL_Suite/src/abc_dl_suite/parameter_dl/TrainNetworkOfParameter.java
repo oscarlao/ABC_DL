@@ -27,8 +27,8 @@ public class TrainNetworkOfParameter {
      * @param replica the replica (or id) of this NN
      * @param par the parameter in the model_to_run that we want to run
      * @param number_of_intermediate_neurons the number of neurons in intermediate layers
-     * @param error_threshold
-     * @throws Exception
+     * @param error_threshold The minimum error to stop the training
+     * @throws Exception if something goes wrong.
      */
     public static void trainNetworkOfParameterFromModel(ProjectInformation project, int model_to_run, int replica, int par, int number_of_intermediate_neurons, double error_threshold) throws Exception {
         Load_Model_Data lm = project.getLm();

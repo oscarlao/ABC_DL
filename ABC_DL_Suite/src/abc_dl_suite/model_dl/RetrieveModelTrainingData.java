@@ -53,7 +53,7 @@ public class RetrieveModelTrainingData {
     
     /**
      * Get the input data transformation that was used for this model training
-     * @return 
+     * @return the object to standardize the input data
      */
     public InputDataTransformation_Standardize getStdT() {
         return stdT;
@@ -61,8 +61,8 @@ public class RetrieveModelTrainingData {
     
     /**
      * Load everything using the project information
-     * @param pi
-     * @throws Exception 
+     * @param pi the ProjectInformation associated to this project
+     * @throws Exception if something goes wrong
      */
     protected final void load(ProjectInformation pi) throws Exception
     {
@@ -76,7 +76,7 @@ public class RetrieveModelTrainingData {
       
         FastSimcoalModel [] bmodels = lm.getBmodel();
 
-        int training_samples = 20000;
+        int training_samples = (int)(pi.getPercentage_of_training()*pi.getNumber_of_fastSimcoal2_folders()*pi.getNumber_of_simulations_by_model_and_fastSimcoal2_folder());
         
         sfs_training = new double[training_samples * bmodels.length][];
         output_training = new double[training_samples * bmodels.length][bmodels.length];        

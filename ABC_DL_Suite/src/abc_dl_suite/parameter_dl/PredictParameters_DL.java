@@ -35,10 +35,10 @@ public class PredictParameters_DL {
      * Compute the abc parameters in the observed data and the simulated data
      * using the first NN_replicas of each parameter of model_to_run
      *
-     * @param project
-     * @param model_to_run
-     * @param how_many_replicas_by_parameter
-     * @throws Exception
+     * @param project the project information of this project
+     * @param model_to_run which model to run
+     * @param how_many_replicas_by_parameter how many replicas by parameter of the model to run
+     * @throws Exception if something goes wrong.
      */
     public static void predictABCParameters(ProjectInformation project, int model_to_run, int how_many_replicas_by_parameter) throws Exception {
 

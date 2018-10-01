@@ -20,7 +20,7 @@ public class RunSimulations {
      * fastSimcoal folder that is going to be used = args[0]/ number_of_models
      * model that is going to be generated = args[0] % number_of_models
      * for example, if we have two models and 4 folders fastSimcoal in our working directory, then args[0] can range between 0 and 7
-     * @throws Exception 
+     * @throws Exception if something goes wrong
      */
     public static void main(String [] args) throws Exception
     {        

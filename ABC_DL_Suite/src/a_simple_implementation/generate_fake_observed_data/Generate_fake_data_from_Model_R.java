@@ -27,15 +27,15 @@ public class Generate_fake_data_from_Model_R {
     /**
      * This is a small script to generate fake data of Model_R that we will use
      * as observed It is not really a part from the ABC-DL pipeline.
-     *
-     * @param args
+     * @param args arguments to pass to the main. Of no use here.
+     * @throws Exception if something goes wrong
      */
     public static void main(String[] args) throws Exception {
         FastSimcoalModel bmodel = new Model_R();
 
-        String fileWithFragments = "C:\\Users\\olao\\OneDrive - CRG - Centre de Regulacio Genomica\\Projects\\Jaume_Indian_Archaic\\abcSimulations\\masked_gromenauer2.txt";
+        String fileWithFragments = "C:\\ABC_DL\\ABC_DL_Example_Project\\test_model\\masked_regions.txt";
 
-        String fastSimcoal2 = "C:\\Users\\olao\\OneDrive - CRG - Centre de Regulacio Genomica\\ABC_DL\\test_model\\fastSimcoal0\\";
+        String fastSimcoal2 = "C:\\ABC_DL\\ABC_DL_Example_Project\\test_model\\fastSimcoal0\\";
 
         RunModelSimulationsGetIndividuals rs = new RunModelSimulationsGetIndividuals(fileWithFragments, fastSimcoal2, "fsc26", new WINDOWS());
 

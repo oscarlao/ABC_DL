@@ -29,7 +29,7 @@ public class ParameterTrainingData {
 
     /**
      * Create a new parameter training data object.
-     * @throws Exception
+     * @throws Exception when something goes wrong.
      */
     public ParameterTrainingData() throws Exception {
     }
@@ -67,11 +67,11 @@ public class ParameterTrainingData {
 
 
     /**
-     * Load the information for the model and param
-     * @param pi
-     * @param model
-     * @param param
-     * @throws Exception 
+     * Load the information for the model and parameter
+     * @param pi the project information
+     * @param model the model id according to the position of list in LoadModel
+     * @param param the parameter of the model
+     * @throws Exception if something goes wrong
      */
     public void load(ProjectInformation pi, int model, int param) throws Exception {
         Random r = new Random();
@@ -128,11 +128,10 @@ public class ParameterTrainingData {
     }
     
     /**
-     * Load the information for the model and param
-     * @param pi
-     * @param model
-     * @param param
-     * @throws Exception 
+     * Load the information for the model and parameter
+     * @param pi the project information
+     * @param model the model
+     * @throws Exception if something goes wrong
      */
     public void load(ProjectInformation pi, int model) throws Exception {
         Random r = new Random();

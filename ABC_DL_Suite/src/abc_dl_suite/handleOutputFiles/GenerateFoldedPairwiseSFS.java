@@ -22,21 +22,19 @@ public class GenerateFoldedPairwiseSFS {
 
     /**
      * Generate a FolderPairwise file
-     * @param pi
-     * @param lm
-     * @param model
-     * @param training
-     * @param individuals_to_consider
-     * @throws Exception 
+     * @param pi the project information
+     * @param model the model
+     * @param training shall we do it with the training (true) or the replication (false) ?
+     * @throws Exception if something goes wrong.
      */
-    public static void generateFoldedPairwiseSFS(ProjectInformation pi, Load_Model_Data lm, int model, boolean training, ProjectInformation individuals_to_consider) throws Exception {
-        int model_to_run = model % lm.getBmodel().length;
+    public static void generateFoldedPairwiseSFS(ProjectInformation pi, int model, boolean training) throws Exception {
+        int model_to_run = model % pi.getLm().getBmodel().length;
 
         String coletilla = (training) ? "_training" : "_replication";        
 
-        FastSimcoalModel bmodel = lm.getBmodel()[model_to_run];
+        FastSimcoalModel bmodel = pi.getLm().getBmodel()[model_to_run];
 
-        String[] individualNames = individuals_to_consider.getIndividuals_Training();
+        String[] individualNames = pi.getIndividuals_Training();
         bmodel.defineModel();
         WriteFile wf = new WriteFile(pi.getWorking_folder() + "output_folded" + bmodel.modelName() + coletilla + ".txt");
         wf.println(bmodel.getLabelOfParameters());

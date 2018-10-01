@@ -19,7 +19,7 @@ public class GenerateSimulationsSFS {
 
     /**
      * Run the simulations for the model using the project information
-     * @param project
+     * @param project the project information
      * @param number a number that codes which folder is going to be used and which model is going to be used. The fastSimcoal_folder is defined by number/number_of_models and the model to run by number%number_of_models
      * @throws Exception if something goes wrong
      */

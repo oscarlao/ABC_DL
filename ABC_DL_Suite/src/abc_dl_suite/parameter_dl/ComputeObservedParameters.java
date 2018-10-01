@@ -34,7 +34,7 @@ public class ComputeObservedParameters {
      * Compute the observed parameters
      * @param project the project information
      * @param model_to_run the model where the parameters are going to be estimated
-     * @throws Exception 
+     * @throws Exception if something goes wrong
      */
     public static void computeObservedParameters(ProjectInformation project, int model_to_run) throws Exception {
         

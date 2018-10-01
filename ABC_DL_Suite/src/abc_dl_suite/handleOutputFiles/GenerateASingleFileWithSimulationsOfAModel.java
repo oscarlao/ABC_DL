@@ -5,10 +5,8 @@
  */
 package abc_dl_suite.handleOutputFiles;
 
-import abc_deeplearning.model.Load_Model_Data;
 import abc_dl_suite.project_information.ProjectInformation;
 import fastsimcoal2.FastSimcoalModel;
-import fastsimcoal2.ParameterException;
 import java.io.File;
 import java.io.IOException;
 import read.ReadFile;
@@ -24,15 +22,15 @@ public class GenerateASingleFileWithSimulationsOfAModel {
      * Generate a single file of the model
      * @param es general information of the project
      * @param model_to_run the output of which model is going to be merged?
-     * @param percentage_of_training the percentage of FastSimcoalFoldersThatAreGoingToBeUsedAsTraining
-     * @throws ParameterException
-     * @throws IOException 
+     * @throws IOException if there is a problem writing the file or reading the output from the fastSimcoal folder
      */
-    public static void generateASingleFileOfModel(ProjectInformation es, int model_to_run, double percentage_of_training) throws ParameterException, IOException {
+    public static void generateASingleFileOfModel(ProjectInformation es, int model_to_run) throws IOException {
         FastSimcoalModel bmodel = es.getLm().getBmodel()[model_to_run];
 
         WriteFile wf = new WriteFile(es.getWorking_folder() + File.separator + "output_" + bmodel.modelName() + "_training.txt");      
        
+        double percentage_of_training = es.getPercentage_of_training();
+        
         int training_folders = (int)(es.getNumber_of_fastSimcoal2_folders()*percentage_of_training);
         
 //File.separator + "scratch" + File.separator + "devel" + File.separator + "olao" + File.separator + "jaume" + File.separator + "abcSimulations" + File.separator

@@ -26,7 +26,7 @@ public class GenerateModelComparison {
      * @param rep the id of the network
      * @param pi the project information
      * @param neuronsIntermediateLayers the number of neurons in the intermediate layers
-     * @throws Exception 
+     * @throws Exception if something goes wrong.
      */
     public static void generateModelComparison(double error_threshold, int rep, ProjectInformation pi, int neuronsIntermediateLayers) throws Exception {
 

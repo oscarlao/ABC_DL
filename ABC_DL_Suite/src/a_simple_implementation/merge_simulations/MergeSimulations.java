@@ -17,6 +17,6 @@ public class MergeSimulations {
     {
         args = new String[1];
         args[0] = "1";
-        GenerateASingleFileWithSimulationsOfAModel.generateASingleFileOfModel(ProjectInformationOfThisImplementation.getProjectInformation(),Integer.parseInt(args[0]),0.5);
+        GenerateASingleFileWithSimulationsOfAModel.generateASingleFileOfModel(ProjectInformationOfThisImplementation.getProjectInformation(),Integer.parseInt(args[0]));
     }    
 }

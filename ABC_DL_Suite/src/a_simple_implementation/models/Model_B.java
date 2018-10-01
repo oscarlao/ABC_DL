@@ -16,7 +16,7 @@ import fastsimcoal2.parameter.distribution.DistributionUniformFromParameterValue
 import fastsimcoal2.parameter.distribution.DistributionUniformFromValue;
 
 /**
- * Model_B. Identical to Model A but including an introgression event in forward population 3 -> 2
+ * Model_B. Identical to Model A but including an introgression event in forward population 3 to 2
  * @author olao
  */
 public class Model_B extends FastSimcoalModel {
