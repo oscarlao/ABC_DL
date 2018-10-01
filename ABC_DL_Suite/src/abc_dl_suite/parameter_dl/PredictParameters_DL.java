@@ -5,7 +5,6 @@
  */
 package abc_dl_suite.parameter_dl;
 
-import a_simple_implementation.suite.ProjectInformationOfThisImplementation;
 import abc_deeplearning.model.Load_Model_Data;
 import abc_dl_suite.project_information.ProjectInformation;
 import data_management.PruneNotVariableVariables;
@@ -53,7 +52,7 @@ public class PredictParameters_DL {
 
         ParameterTrainingData ptd = new ParameterTrainingData();
 
-        ptd.load(ProjectInformationOfThisImplementation.getProjectInformation(), model_to_run);
+        ptd.load(project, model_to_run);
 
         File files_r = new File(folder_data + "output_" + bmodel.modelName() + "_replication.txt");
         RetrieveDataByRow rdb = new RetrieveDataByRow(files_r);
