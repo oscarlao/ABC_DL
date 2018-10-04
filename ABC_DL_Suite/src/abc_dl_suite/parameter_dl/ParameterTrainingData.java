@@ -6,7 +6,6 @@
 package abc_dl_suite.parameter_dl;
 
 import abc_dl_suite.project_information.ProjectInformation;
-import data_management.DataManagement;
 import data_management.PruneNotVariableVariables;
 import data_management.RetrieveFragmentList;
 import data_management.RetrieveObservedData;

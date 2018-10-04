@@ -52,7 +52,5 @@ public class TrainNetworkOfParameter {
         BasicNetwork bn = network.runParameterWithInjection(error_threshold, startTime, sfs_training, output_training_kk, number_of_intermediate_neurons, 10000, ptd.getNif(), ptd.getIs(), 0.50);
 
         SerializeObject.save(new File(folder_network + bmodel.modelName() + File.separator + bmodel.getListParameters().get(par).getName() + "_" + replica + ".network"), bn);
-
-        System.exit(0);
     }
 }
