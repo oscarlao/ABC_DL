@@ -17,7 +17,7 @@ public class GenerateDLOfModels {
     {
         args = new String[1];
         args[0] = "9";                
-        GenerateModelComparison.generateModelComparison(0.025, Integer.parseInt(args[0]), ProjectInformationOfThisImplementation.getProjectInformation(), 20); // Networks for model comparison
+        GenerateModelComparison.generateModelComparison(0.025, Integer.parseInt(args[0]), ProjectInformationOfThisImplementation.getProjectInformation(), 20, 6.0); // Networks for model comparison
         
     }
 }

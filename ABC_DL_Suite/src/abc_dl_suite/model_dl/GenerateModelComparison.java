@@ -26,9 +26,10 @@ public class GenerateModelComparison {
      * @param rep the id of the network
      * @param pi the project information
      * @param neuronsIntermediateLayers the number of neurons in the intermediate layers
+     * @param max_time_running the maximum amount of time you can train this neural network
      * @throws Exception if something goes wrong.
      */
-    public static void generateModelComparison(double error_threshold, int rep, ProjectInformation pi, int neuronsIntermediateLayers) throws Exception {
+    public static void generateModelComparison(double error_threshold, int rep, ProjectInformation pi, int neuronsIntermediateLayers, double max_time_running) throws Exception {
 
         long startTime = System.currentTimeMillis();
        
@@ -44,7 +45,7 @@ public class GenerateModelComparison {
         
         InputDataTransformation_Standardize idt = mt.getStdT();
         
-        BasicNetwork bn = network.runANNGenerateModelComparisonNoiseInjection(error_threshold, startTime, sfs_training, output_training, null, null, neuronsIntermediateLayers, 10000, nif, idt, 6.0);
+        BasicNetwork bn = network.runANNGenerateModelComparisonNoiseInjection(error_threshold, startTime, sfs_training, output_training, null, null, neuronsIntermediateLayers, 10000, nif, idt, max_time_running);
 
         SerializeObject.save(new File(pi.getWorking_folder() + File.separator + "model" + File.separator + "ABC_Models_comparison_10000_ThreeLayers" + neuronsIntermediateLayers + "_" + rep + ".network"), bn);
 
