@@ -54,7 +54,7 @@ public class PredictParameters_DL {
 
         ptd.load(project, model_to_run);
 
-        File files_r = new File(folder_data + "output_" + bmodel.modelName() + "_replication.txt");
+        File files_r = new File(folder_data + File.separator + "output_" + bmodel.modelName() + "_replication.txt");
         RetrieveDataByRow rdb = new RetrieveDataByRow(files_r);
 
         WriteFile wf = new WriteFile(folder_data + File.separator + bmodel.modelName() + "_replication_parameter_for_abc.txt");

@@ -6,7 +6,9 @@
 package abc_dl_suite.parameter_dl;
 
 import abc_dl_suite.project_information.ProjectInformation;
+import data_management.DataManagement;
 import data_management.PruneNotVariableVariables;
+import data_management.RetrieveDataByRow;
 import data_management.RetrieveFragmentList;
 import data_management.RetrieveObservedData;
 import data_management.RetrieveSimulatedDataLargeDataset;
@@ -18,7 +20,9 @@ import fastsimcoal2.data.FragmentList;
 import java.io.File;
 import java.util.Random;
 import plink.read.ReadBEDFile;
+import read.ReadFile;
 import util.NoiseRange;
+import util.Parameters_SummaryStatistics;
 
 /**
  *
@@ -28,6 +32,7 @@ public class ParameterTrainingData {
 
     /**
      * Create a new parameter training data object.
+     *
      * @throws Exception when something goes wrong.
      */
     public ParameterTrainingData() throws Exception {
@@ -64,32 +69,64 @@ public class ParameterTrainingData {
         return pnvv;
     }
 
-
     /**
      * Load the information for the model and parameter
+     *
      * @param pi the project information
      * @param model the model id according to the position of list in LoadModel
      * @param param the parameter of the model
      * @throws Exception if something goes wrong
      */
     public void load(ProjectInformation pi, int model, int param) throws Exception {
+        String[] individuals = pi.getIndividuals_Training();
+        int[] pops_to_retrieve = pi.getPops_to_retrieve();        
         Random r = new Random();
-        String[] reference = {"Ancestral"};        
+        String[] reference = {"Ancestral"};
         File[] files = new File[1];
         FastSimcoalModel bmodel = pi.getLm().getBmodel()[model];
-        files[0] = new File(pi.getWorking_folder() + "output_" + bmodel.modelName() + "_training.txt");
-        RetrieveSimulatedDataLargeDataset rmodels = new RetrieveSimulatedDataLargeDataset(files, 0);     
-        double[][] sfs = rmodels.getSfs();
+        files[0] = new File(pi.getWorking_folder() + File.separator + "output_" + bmodel.modelName() + "_training.txt");
+
+        ReadFile rf = new ReadFile(files[0]);
+        
+        rf.readRow();
+        
+        int rows = 0;
+        while(rf.readRow()!=null) rows++;
+        
+        rf.close();
+        
+        int training_samples = (int)(rows*pi.getPercentage_of_training());
+        
+        System.out.println("Using " + training_samples + " as training");       
+        
+        double[][] sfs = new double[training_samples][];
 // parameters are transformed to be between 0 and 1
-        double[][] params = rmodels.getParams();
+        double[][] params = new double[training_samples][];        
+        
+        RetrieveDataByRow rdb = new RetrieveDataByRow(files[0]);
+        for (int row = 0; row < training_samples; row++) {
+            try {
+                Parameters_SummaryStatistics pss = rdb.next();
+                sfs[row] = DataManagement.extract_populations(individuals.length, pops_to_retrieve, pss.getSummaryStatistics());
+                for (int e = 0; e < sfs[row].length; e++) {
+                    sfs[row][e] += r.nextGaussian() * 0.0001;
+                }
+                params[row] = pss.getParameters();
+            } catch (Exception tok) {
+                System.out.println("Problem reading line " + row + " in " + pi.getWorking_folder() + File.separator + "output_" + bmodel.modelName() + "_training.txt");
+                throw tok;
+            }
+        }
+        
+        rdb.close();
+
         double[][] params_selected = new double[params.length][1];
         for (int row = 0; row < params.length; row++) {
             params_selected[row][0] = params[row][param];
-            for(int e=0;e<sfs[0].length;e++)
-            {
-                sfs[row][e] = sfs[row][e] + r.nextGaussian()*0.00001;
+            for (int e = 0; e < sfs[0].length; e++) {
+                sfs[row][e] = sfs[row][e] + r.nextGaussian() * 0.00001;
             }
-        }        
+        }
         bc = new InputDataTransformation_ByColumn(-1);
         params = bc.transform(params_selected);
 // Remove the sfs variables that are fixed        
@@ -110,7 +147,7 @@ public class ParameterTrainingData {
         String fileWithFragments = pi.getWorking_folder() + File.separator + "masked_regions.txt";
 
         FragmentList[] fr = RetrieveFragmentList.retrieveTheFragments(fileWithFragments);
-        String plink = pi.getWorking_folder() +File.separator + pi.getPlink_file_with_observed_data() ;
+        String plink = pi.getWorking_folder() + File.separator + pi.getPlink_file_with_observed_data();
         RetrieveObservedData ro = new RetrieveObservedData(new ReadBEDFile(plink), fr);
 
         int[] observed_sfs = ro.getSFS(pi.getIndividuals_Training(), reference);
@@ -125,29 +162,56 @@ public class ParameterTrainingData {
 // Compute the noise injection        
         nif = new NoiseInjectionObservedSFS(new NoiseRange(0.0, 0.2), sfs_observed);
     }
-    
+
     /**
      * Load the information for the model and parameter
+     *
      * @param pi the project information
      * @param model the model
      * @throws Exception if something goes wrong
      */
     public void load(ProjectInformation pi, int model) throws Exception {
+        String[] individuals = pi.getIndividuals_Training();
+        int[] pops_to_retrieve = pi.getPops_to_retrieve();   
         Random r = new Random();
-        String[] reference = {"Ancestral"};        
+        String[] reference = {"Ancestral"};
         File[] files = new File[1];
         FastSimcoalModel bmodel = pi.getLm().getBmodel()[model];
-        files[0] = new File(pi.getWorking_folder() + "output_" + bmodel.modelName() + "_training.txt");
-        RetrieveSimulatedDataLargeDataset rmodels = new RetrieveSimulatedDataLargeDataset(files, 0);     
-        double[][] sfs = rmodels.getSfs();
+        files[0] = new File(pi.getWorking_folder() + File.separator + "output_" + bmodel.modelName() + "_training.txt");
+        ReadFile rf = new ReadFile(files[0]);
+        
+        rf.readRow();
+        
+        int rows = 0;
+        while(rf.readRow()!=null) rows++;
+        
+        rf.close();
+        
+        int training_samples = (int)(rows*pi.getPercentage_of_training());
+        
+        System.out.println("Using " + training_samples + " as training");       
+        
+        double[][] sfs = new double[training_samples][];
 // parameters are transformed to be between 0 and 1
-        double[][] params_selected = rmodels.getParams();
-        for (int row = 0; row < params_selected.length; row++) {
-            for(int e=0;e<sfs[0].length;e++)
-            {
-                sfs[row][e] = sfs[row][e] + r.nextGaussian()*0.00001;
+        double[][] params_selected = new double[training_samples][];        
+        
+        RetrieveDataByRow rdb = new RetrieveDataByRow(files[0]);
+        for (int row = 0; row < training_samples; row++) {
+            try {
+                Parameters_SummaryStatistics pss = rdb.next();
+                sfs[row] = DataManagement.extract_populations(individuals.length, pops_to_retrieve, pss.getSummaryStatistics());
+                for (int e = 0; e < sfs[row].length; e++) {
+                    sfs[row][e] += r.nextGaussian() * 0.0001;
+                }
+                params_selected[row] = pss.getParameters();
+            } catch (Exception tok) {
+                System.out.println("Problem reading line " + row + " in " + pi.getWorking_folder() + File.separator + "output_" + bmodel.modelName() + "_training.txt");
+                throw tok;
             }
-        }        
+        }
+        
+        rdb.close();
+        
         bc = new InputDataTransformation_ByColumn(-1);
         params_selected = bc.transform(params_selected);
 // Remove the sfs variables that are fixed        
@@ -168,7 +232,7 @@ public class ParameterTrainingData {
         String fileWithFragments = pi.getWorking_folder() + File.separator + "masked_regions.txt";
 
         FragmentList[] fr = RetrieveFragmentList.retrieveTheFragments(fileWithFragments);
-        String plink = pi.getWorking_folder() +File.separator + pi.getPlink_file_with_observed_data() ;
+        String plink = pi.getWorking_folder() + File.separator + pi.getPlink_file_with_observed_data();
         RetrieveObservedData ro = new RetrieveObservedData(new ReadBEDFile(plink), fr);
 
         int[] observed_sfs = ro.getSFS(pi.getIndividuals_Training(), reference);
@@ -182,5 +246,5 @@ public class ParameterTrainingData {
         sfs_observed = pnvv.prune(sfs_observed);
 // Compute the noise injection        
         nif = new NoiseInjectionObservedSFS(new NoiseRange(0.0, 0.2), sfs_observed);
-    }    
+    }
 }

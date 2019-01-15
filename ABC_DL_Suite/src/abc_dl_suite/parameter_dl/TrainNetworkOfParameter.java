@@ -28,9 +28,10 @@ public class TrainNetworkOfParameter {
      * @param par the parameter in the model_to_run that we want to run
      * @param number_of_intermediate_neurons the number of neurons in intermediate layers
      * @param error_threshold The minimum error to stop the training
+     * @param max_running_time The maximum amount of time that the Neural Network is going to be trained. 0.5 means 30 minutes, 1 means one hour...
      * @throws Exception if something goes wrong.
      */
-    public static void trainNetworkOfParameterFromModel(ProjectInformation project, int model_to_run, int replica, int par, int number_of_intermediate_neurons, double error_threshold) throws Exception {
+    public static void trainNetworkOfParameterFromModel(ProjectInformation project, int model_to_run, int replica, int par, int number_of_intermediate_neurons, double error_threshold, double max_running_time) throws Exception {
         Load_Model_Data lm = project.getLm();
         FastSimcoalModel bmodel = lm.getBmodel()[model_to_run];
         bmodel.defineModel();
@@ -49,7 +50,7 @@ public class TrainNetworkOfParameter {
         NetworkGeneratorParameter network = new NetworkGeneratorParameter();
 
 // Run the network
-        BasicNetwork bn = network.runParameterWithInjection(error_threshold, startTime, sfs_training, output_training_kk, number_of_intermediate_neurons, 10000, ptd.getNif(), ptd.getIs(), 0.50);
+        BasicNetwork bn = network.runParameterWithInjection(error_threshold, startTime, sfs_training, output_training_kk, number_of_intermediate_neurons, 10000, ptd.getNif(), ptd.getIs(), max_running_time);
 
         SerializeObject.save(new File(folder_network + bmodel.modelName() + File.separator + bmodel.getListParameters().get(par).getName() + "_" + replica + ".network"), bn);
     }

@@ -27,22 +27,22 @@ import util.Parameters_SummaryStatistics;
  * @author olao@crg.es
  */
 public class RetrieveModelTrainingData {
-    public RetrieveModelTrainingData(ProjectInformation pi) throws Exception
-    {
-        load(pi);                
+
+    public RetrieveModelTrainingData(ProjectInformation pi) throws Exception {
+        load(pi);
     }
-    
+
     private InputDataTransformation_Standardize stdT;
     private ArrayList<Integer> variable_columns = new ArrayList<>();
-    
+
     private double[][] sfs_training;
     private double[][] output_training;
     private NoiseInjectionObservedSFS nif;
 
     public NoiseInjectionObservedSFS getNif() {
         return nif;
-    }    
-    
+    }
+
     public double[][] getSfs_training() {
         return sfs_training;
     }
@@ -50,66 +50,69 @@ public class RetrieveModelTrainingData {
     public double[][] getOutput_training() {
         return output_training;
     }
-    
+
     /**
      * Get the input data transformation that was used for this model training
+     *
      * @return the object to standardize the input data
      */
     public InputDataTransformation_Standardize getStdT() {
         return stdT;
     }
-    
+
     /**
      * Load everything using the project information
+     *
      * @param pi the ProjectInformation associated to this project
      * @throws Exception if something goes wrong
      */
-    protected final void load(ProjectInformation pi) throws Exception
-    {
+    protected final void load(ProjectInformation pi) throws Exception {
         Load_Model_Data lm = pi.getLm();
-        String [] individuals = pi.getIndividuals_Training();
-        int [] pops_to_retrieve = pi.getPops_to_retrieve();
+        String[] individuals = pi.getIndividuals_Training();
+        int[] pops_to_retrieve = pi.getPops_to_retrieve();
 // Observed data          
-        String folder = pi.getWorking_folder();        
+        String folder = pi.getWorking_folder();
 
 // Simulations
-      
-        FastSimcoalModel [] bmodels = lm.getBmodel();
+        FastSimcoalModel[] bmodels = lm.getBmodel();
 
-        int training_samples = (int)(pi.getPercentage_of_training()*pi.getNumber_of_fastSimcoal2_folders()*pi.getNumber_of_simulations_by_model_and_fastSimcoal2_folder());
-        
+        int training_samples = (int) (pi.getPercentage_of_training() * pi.getNumber_of_fastSimcoal2_folders() * pi.getNumber_of_simulations_by_model_and_fastSimcoal2_folder());
+
         sfs_training = new double[training_samples * bmodels.length][];
-        output_training = new double[training_samples * bmodels.length][bmodels.length];        
+        output_training = new double[training_samples * bmodels.length][bmodels.length];
 
         Random r = new Random();
-        
+
         int count_training = 0;
-        for(int i = 0; i<bmodels.length;i++)
-        {
+        for (int i = 0; i < bmodels.length; i++) {
             FastSimcoalModel m = bmodels[i];
-            RetrieveDataByRow rdb = new RetrieveDataByRow(new File(folder + "output_"+m.modelName()+"_training.txt"));
-            for(int row=0;row<training_samples;row++)
-            {
-                Parameters_SummaryStatistics pss = rdb.next();
-                sfs_training[count_training] = DataManagement.extract_populations(individuals.length, pops_to_retrieve, pss.getSummaryStatistics());
-                for(int e=0;e<sfs_training[count_training].length;e++)
-                {
-                    sfs_training[count_training][e] += r.nextGaussian()*0.0001;
+            RetrieveDataByRow rdb = new RetrieveDataByRow(new File(folder + File.separator + "output_" + m.modelName() + "_training.txt"));
+            System.out.println(folder + File.separator + "output_" + m.modelName() + "_training.txt");
+            for (int row = 0; row < training_samples; row++) {
+                try {
+                    Parameters_SummaryStatistics pss = rdb.next();
+                    sfs_training[count_training] = DataManagement.extract_populations(individuals.length, pops_to_retrieve, pss.getSummaryStatistics());
+                    for (int e = 0; e < sfs_training[count_training].length; e++) {
+                        sfs_training[count_training][e] += r.nextGaussian() * 0.0001;
+                    }
+                    output_training[count_training][i] = 1;
+                    count_training++;
+                } catch (Exception tok) {
+                    System.out.println("Problem reading line " + row + " in file " + folder + File.separator + "output_" + m.modelName() + "_training.txt");
+                    throw tok;
                 }
-                output_training[count_training][i] = 1;
-                count_training++;
             }
         }
 //         
         stdT = new InputDataTransformation_Standardize(individuals.length);
 // load the mean and std from the training data. BUT DO NOT MAKE ANY CHANGE TO THE DATA ITSELF!                
-        stdT.load(sfs_training);    
-        
-// Observed data        
-        String fileWithFragments = folder + "masked_regions.txt";
+        stdT.load(sfs_training);
 
-        FragmentList[] fr = RetrieveFragmentList.retrieveTheFragments(fileWithFragments);       
-        
+// Observed data        
+        String fileWithFragments = folder + File.separator + "masked_regions.txt";
+
+        FragmentList[] fr = RetrieveFragmentList.retrieveTheFragments(fileWithFragments);
+
         String plink = pi.getWorking_folder() + File.separator + pi.getPlink_file_with_observed_data();
         RetrieveObservedData ro = new RetrieveObservedData(new ReadBEDFile(plink), fr);
         String[] reference = {"Ancestral"};
@@ -117,13 +120,13 @@ public class RetrieveModelTrainingData {
         int[] observed_sfs = ro.getSFS(individuals, reference);
         int not_excluded = ro.getIncluded_SNPs();
         int excluded = ro.getExcluded_SNPs();
-        double [] sfs_observed = new double[observed_sfs.length];
+        double[] sfs_observed = new double[observed_sfs.length];
         for (int e = 0; e < observed_sfs.length; e++) {
             sfs_observed[e] = observed_sfs[e] + (excluded * observed_sfs[e] / (double) not_excluded);
         }
-        
-        sfs_observed = DataManagement.extract_populations(individuals.length, pops_to_retrieve, sfs_observed);           
-        
-        nif = new NoiseInjectionObservedSFS(new NoiseRange(0.0,0.2), sfs_observed);                
-    }    
+
+        sfs_observed = DataManagement.extract_populations(individuals.length, pops_to_retrieve, sfs_observed);
+
+        nif = new NoiseInjectionObservedSFS(new NoiseRange(0.0, 0.2), sfs_observed);
+    }
 }

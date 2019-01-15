@@ -79,6 +79,16 @@ public class Model_B extends FastSimcoalModel {
         EventParameter eIntrogression3_to_2 = new EventParameter(tintrogression3to2, demography.getPosition("Pop2"), demography.getPosition("Pop3"), introgression, new Value(1.0), new Value(1.0), new Value(0), 1);
         demography.add_event(eIntrogression3_to_2);
 
+// Event Archaic introgression of population 3 in 2 between 200 and 400 generations ago
+        ParameterValue tintrogression4to2 = new ParameterValue("tIntrogressionPop4_to_Pop2", new DistributionUniformFromValue(new Value(200), new Value(400)));
+        parameters.add(tintrogression4to2);
+// Introgression ranges between 1% and 20%    
+        ParameterValue introgression4to2 = new ParameterValue("IntrogressionPop4_to_Pop2", new DistributionUniformFromValue(new Value(0.01), new Value(0.2)));
+        parameters.add(introgression4to2);
+// In fastSimcoal2, a split event forward is defined as an event backward where one of the two populations merges all its migrants with the other population.        
+        EventParameter eIntrogression4_to_2 = new EventParameter(tintrogression3to2, demography.getPosition("Pop2"), demography.getPosition("Pop4"), introgression4to2, new Value(1.0), new Value(1.0), new Value(0), 1);
+        demography.add_event(eIntrogression4_to_2);        
+        
 // Event Split pop1 from pop2. It ranges between 500 generations and 1500 generations
         t1_2 = new ParameterValue("tSplitPop1_Pop2", new DistributionUniformFromValue(new Value(500), new Value(1500)));
         parameters.add(t1_2);

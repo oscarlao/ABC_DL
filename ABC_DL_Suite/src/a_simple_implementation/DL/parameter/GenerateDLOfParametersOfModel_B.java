@@ -15,6 +15,6 @@ import abc_dl_suite.parameter_dl.TrainNetworkOfParameter;
 public class GenerateDLOfParametersOfModel_B {
     public static void main(String [] args) throws Exception
     {
-        TrainNetworkOfParameter.trainNetworkOfParameterFromModel(ProjectInformationOfThisImplementation.getProjectInformation(), 1, 0, 11, 200, 0.025);        
+        TrainNetworkOfParameter.trainNetworkOfParameterFromModel(ProjectInformationOfThisImplementation.getProjectInformation(), 1, 0, 11, 200, 0.025, 0.5);        
     }    
 }
