@@ -11,7 +11,6 @@ import data_management.PruneNotVariableVariables;
 import data_management.RetrieveDataByRow;
 import data_management.RetrieveFragmentList;
 import data_management.RetrieveObservedData;
-import data_management.RetrieveSimulatedDataLargeDataset;
 import data_transformation.InputDataTransformation_ByColumn;
 import data_transformation.InputDataTransformation_Standardize;
 import encog.noise.NoiseInjectionObservedSFS;
@@ -95,7 +94,7 @@ public class ParameterTrainingData {
         
         rf.close();
         
-        int training_samples = (int)(rows*pi.getPercentage_of_training());
+        int training_samples = rows;
         
         System.out.println("Using " + training_samples + " as training");       
         

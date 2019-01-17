@@ -2,6 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/olao/OneDrive%20-%20CRG%20-%20Centre%20de%20Regulacio%20Genomica/NetBeansProjects/ABC_DL_Suite/src/abc_dl_suite/model_dl/GenerateModelComparison.java</file>
+            <file>file:/C:/Users/olao/OneDrive%20-%20CRG%20-%20Centre%20de%20Regulacio%20Genomica/NetBeansProjects/ABC_DL_Suite/src/a_simple_implementation/DL/model/GenerateDLOfModels.java</file>
+            <file>file:/C:/Users/olao/OneDrive%20-%20CRG%20-%20Centre%20de%20Regulacio%20Genomica/NetBeansProjects/ABC_DL_Suite/src/a_simple_implementation/DL/parameter/GenerateDLOfParametersOfModel_B.java</file>
+            <file>file:/C:/Users/olao/OneDrive%20-%20CRG%20-%20Centre%20de%20Regulacio%20Genomica/NetBeansProjects/ABC_DL_Suite/src/abc_dl_suite/parameter_dl/TrainNetworkOfParameter.java</file>
+        </group>
     </open-files>
 </project-private>
