@@ -36,7 +36,8 @@ public class PredictParameters_DL {
      *
      * @param project the project information of this project
      * @param model_to_run which model to run
-     * @param how_many_replicas_by_parameter how many replicas by parameter of the model to run
+     * @param how_many_replicas_by_parameter how many replicas by parameter of
+     * the model to run
      * @throws Exception if something goes wrong.
      */
     public static void predictABCParameters(ProjectInformation project, int model_to_run, int how_many_replicas_by_parameter) throws Exception {
@@ -59,21 +60,32 @@ public class PredictParameters_DL {
 
         WriteFile wf = new WriteFile(folder_data + File.separator + bmodel.modelName() + "_replication_parameter_for_abc.txt");
 // Set the names of the variables.
+
+        int printable_parameters = 0;
+
         for (int p = 0; p < bmodel.getListParameters().size(); p++) {
-            String name = bmodel.getListParameters().get(p).getName();
-            wf.print(" " + name);
-            for (int rep = 0; rep < how_many_replicas_by_parameter; rep++) {
-                wf.print(" " + name + "_p_" + rep);
+            if (bmodel.getListParameters().get(p).getPrint_parameter()) {
+                String name = bmodel.getListParameters().get(p).getName();
+                wf.print(" " + name);
+                for (int rep = 0; rep < how_many_replicas_by_parameter; rep++) {
+                    wf.print(" " + name + "_p_" + rep);
+                }
+                printable_parameters++;
             }
         }
         wf.println("");
 
 // Load the networks        
-        NetworkLoader[][] nc = new NetworkLoader[how_many_replicas_by_parameter][bmodel.getListParameters().size()];
+        NetworkLoader[][] nc = new NetworkLoader[how_many_replicas_by_parameter][printable_parameters];
 
         for (int rep = 0; rep < how_many_replicas_by_parameter; rep++) {
+            int k = 0;
             for (int par = 0; par < bmodel.getListParameters().size(); par++) {
-                nc[rep][par] = new NetworkLoader((BasicNetwork) SerializeObject.load(new File(folder_network + bmodel.getListParameters().get(par).getName() + "_" + rep + ".network")));
+// Consider only the parameters that are not nuisance
+                if (bmodel.getListParameters().get(par).getPrint_parameter()) {
+                    nc[rep][k] = new NetworkLoader((BasicNetwork) SerializeObject.load(new File(folder_network + bmodel.getListParameters().get(par).getName() + "_" + rep + ".network")));
+                    k++;
+                }
             }
         }
 
@@ -106,7 +118,7 @@ public class PredictParameters_DL {
         f = pnvv.prune(f);
 // Standardize
         f = standardize_t.transform(f);
-        for (int param = 0; param < bmodel.getListParameters().size(); param++) {
+        for (int param = 0; param < printable_parameters; param++) {
             wf.print(" NA");
             for (int rep = 0; rep < how_many_replicas_by_parameter; rep++) {
                 wf.print(" " + nc[rep][param].predict(f)[0] + " ");
@@ -125,20 +137,25 @@ public class PredictParameters_DL {
             bmodel.defineModel();
             bmodel.loadParameters(pa);
             double[] pp = new double[pa.length];
-            for (int p = 0; p < pp.length; p++) {
-                if (bmodel.getListParameters().get(p).number_of_composited_parameters() > 0) {
-                    pp[p] = bmodel.getListParameters().get(p).get_composite_value().doubleValue();
-                } else {
-                    pp[p] = bmodel.getListParameters().get(p).getValue().doubleValue();
+            int k = 0;
+            for (int p = 0; p < bmodel.getListParameters().size(); p++) {
+                if (bmodel.getListParameters().get(p).getPrint_parameter()) {
+                    if (bmodel.getListParameters().get(p).number_of_composited_parameters() > 0) {
+                        pp[k] = bmodel.getListParameters().get(p).get_composite_value().doubleValue();
+                    } else {
+                        pp[k] = bmodel.getListParameters().get(p).getValue().doubleValue();
+                    }
+                    k++;
                 }
             }
+            
             for (int par = 0; par < pss.getParameters().length; par++) {
                 wf.print(" " + pp[par]);
-                for(int rep=0;rep<how_many_replicas_by_parameter;rep++)
-                {
-                    wf.print(" " + nc[rep][par].predict(sfs_replication)[0]);                    
+                for (int rep = 0; rep < how_many_replicas_by_parameter; rep++) {
+                    wf.print(" " + nc[rep][par].predict(sfs_replication)[0]);
                 }
             }
+            
             wf.println("");
             pss = rdb.next();
         }
