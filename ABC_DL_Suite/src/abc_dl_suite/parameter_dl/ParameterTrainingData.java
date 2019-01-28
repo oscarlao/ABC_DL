@@ -186,7 +186,7 @@ public class ParameterTrainingData {
         
         rf.close();
         
-        int training_samples = (int)(rows*pi.getPercentage_of_training());
+        int training_samples = rows;
         
         System.out.println("Using " + training_samples + " as training");       
         
